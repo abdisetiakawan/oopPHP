@@ -3,6 +3,7 @@ class Produk {
     public $judul,
            $penulis,
            $penerbit;
+    protected $diskon;
     private $harga;
 
 
@@ -41,8 +42,10 @@ class Produk {
         return $str;
     }
     public function getHarga() {
-        return $this->harga;
+        return $this->harga - ($this->harga * $this->diskon / 100);
     }
+
+
 
 }
 
@@ -72,6 +75,9 @@ class Komik extends Produk {
     public function getInfoProduk() {
         $str = "Komik : " . parent::getInfoProduk() . " - {$this->jmlHalaman} Halaman.";
         return $str;
+    }
+    public function setDiskon($diskon) {
+        $this->diskon = $diskon;
     }
 }
 
@@ -110,12 +116,6 @@ class Game extends Produk {
 
 }
 
-class CetakInfoProduk {
-    public function cetak(Produk $produk) {
-        $str = "{$produk->judul} | {$produk->getLabel()} (Rp. {$produk->harga})";
-        return $str;
-    }
-}
 
 
 $produk1 = new Komik("Naruto", "Masashi Kishimoto", "Shonen Jump", 30000, 100);
@@ -124,8 +124,10 @@ $produk2 = new Game("Uncharted", "Neil Druckmann", "Sony Computer", 250000, 50);
 echo $produk1->getInfoProduk();
 echo "<br>";
 echo $produk2->getInfoProduk();
+echo "<hr>";
 
-
+$produk1->setDiskon(69);
+echo "Harga Sekarang : Rp. " . $produk1->getHarga();
 
 echo "<hr>";
 echo $produk2->getHarga();
@@ -136,10 +138,4 @@ echo $produk2->getHarga();
  * - Protected: Atribut atau method yang dapat diakses dari dalam kelas itu sendiri dan dari kelas turunannya (subclass).
  * - Private: Atribut atau method yang hanya dapat diakses dari dalam kelas itu sendiri dan tidak dapat diakses dari luar kelas atau kelas turunannya.
  */
-
-
-
-
-//$cetakInfo = new CetakInfoProduk();
-//echo $cetakInfo->cetak($produk1);
 ?>
