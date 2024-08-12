@@ -1,9 +1,9 @@
 <?php 
 class Produk {
-    public $judul,
+    private $judul,
            $penulis,
            $penerbit;
-    protected $diskon;
+    private $diskon;
     private $harga;
 
 
@@ -45,8 +45,30 @@ class Produk {
         return $this->harga - ($this->harga * $this->diskon / 100);
     }
 
-
-
+    public function getJudul() {
+        return $this->judul;
+    }
+    public function setJudul($judul) {
+        $this->judul = $judul;
+    }
+    public function getPenulis() {
+        return $this->penulis;
+    }
+    public function setPenulis($penulis) {
+        $this->penulis = $penulis;
+    }
+    public function getPenerbit() {
+        return $this->penerbit;
+    }
+    public function setPenerbit($penerbit) {
+        $this->penerbit = $penerbit;
+    }
+    public function setDiskon($diskon) {
+        $this->diskon = $diskon;
+    }
+    public function getDiskon() {
+        return $this->diskon;
+    }
 }
 
 class Komik extends Produk {
@@ -76,9 +98,7 @@ class Komik extends Produk {
         $str = "Komik : " . parent::getInfoProduk() . " - {$this->jmlHalaman} Halaman.";
         return $str;
     }
-    public function setDiskon($diskon) {
-        $this->diskon = $diskon;
-    }
+
 }
 
 class Game extends Produk {
@@ -126,11 +146,15 @@ echo "<br>";
 echo $produk2->getInfoProduk();
 echo "<hr>";
 
-$produk1->setDiskon(69);
+$produk1->setDiskon(50);
 echo "Harga Sekarang : Rp. " . $produk1->getHarga();
 
 echo "<hr>";
 echo $produk2->getHarga();
+echo "<hr>";
+
+
+echo $produk1->getDiskon();
 /**
  * Access Modifier (Pengatur Akses) dalam OOP (Object-Oriented Programming)
  *
