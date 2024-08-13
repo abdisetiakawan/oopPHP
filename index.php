@@ -87,7 +87,7 @@ class Komik extends Produk {
     public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = 0, $jmlHalaman = 0) {
         parent::__construct($judul, $penulis, $penerbit, $harga);
         $this->jmlHalaman = $jmlHalaman;
-    }
+    } 
 
     /**
      * Mengembalikan informasi produk komik dalam bentuk string.
@@ -147,14 +147,14 @@ echo $produk2->getInfoProduk();
 echo "<hr>";
 
 $produk1->setDiskon(50);
-echo "Harga Sekarang : Rp. " . $produk1->getHarga();
+echo "Harga Sekarang Produk Komik : Rp. " . $produk1->getHarga();
 
 echo "<hr>";
-echo $produk2->getHarga();
+echo "Harga Sekarang Produk Game : Rp. " . $produk2->getHarga();
 echo "<hr>";
 
 
-echo $produk1->getDiskon();
+echo "Diskon : " . $produk1->getDiskon() . "%";
 /**
  * Access Modifier (Pengatur Akses) dalam OOP (Object-Oriented Programming)
  *
