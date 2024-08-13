@@ -1,10 +1,15 @@
 <?php 
-class Produk {
-    private $judul,
-           $penulis,
-           $penerbit;
-    private $diskon;
-    private $harga;
+interface InfoProduk {
+    public function getInfoProduk();
+}
+
+
+abstract class Produk {
+    protected $judul,
+            $penulis,
+            $penerbit,
+            $diskon,
+            $harga;
 
 
     /**
@@ -37,10 +42,8 @@ class Produk {
      *
      * @return string
      */
-    public function getInfoProduk() {  
-        $str = "{$this->judul} | {$this->getLabel()} (Rp. {$this->harga})";
-        return $str;
-    }
+    
+    abstract public function getInfo();
     public function getHarga() {
         return $this->harga - ($this->harga * $this->diskon / 100);
     }
@@ -71,7 +74,7 @@ class Produk {
     }
 }
 
-class Komik extends Produk {
+class Komik extends Produk implements InfoProduk {
     public $jmlHalaman;
 
     /**
@@ -95,13 +98,16 @@ class Komik extends Produk {
      * @return string
      */
     public function getInfoProduk() {
-        $str = "Komik : " . parent::getInfoProduk() . " - {$this->jmlHalaman} Halaman.";
+        $str = "Komik : " . $this->getInfo() . " - {$this->jmlHalaman} Halaman.";
         return $str;
     }
-
+    public function getInfo() {  
+        $str = "{$this->judul} | {$this->getLabel()} (Rp. {$this->harga})";
+        return $str;
+    }
 }
 
-class Game extends Produk {
+class Game extends Produk implements InfoProduk {
     public $waktuMain;
 
     /**
@@ -125,7 +131,7 @@ class Game extends Produk {
      * @return string
      */
     public function getInfoProduk() {
-        $str = "Game : " . parent::getInfoProduk() . " - {$this->waktuMain} Jam.";
+        $str = "Game : " . $this->getInfo() . " - {$this->waktuMain} Jam.";
         return $str;
     }
     /**
@@ -133,7 +139,38 @@ class Game extends Produk {
      *
      * @return int
      */
+    public function getInfo() {  
+        $str = "{$this->judul} | {$this->getLabel()} (Rp. {$this->harga})";
+        return $str;
+    }
 
+}
+
+class CetakInfoProduk {
+    public $daftarProduk = array();
+
+    /**
+     * Menambahkan produk ke daftar produk.
+     *
+     * @param Produk $produk Produk yang akan ditambahkan.
+     * @return void
+     */
+    public function tambahProduk(Produk $produk) {
+        $this->daftarProduk[] = $produk;
+    }
+    /**
+     * Menampilkan daftar produk dalam bentuk string.
+     *
+     * @return string
+     */
+    public function cetak() {
+        $str = "DAFTAR PRODUK : <br>";
+        foreach ($this->daftarProduk as $p) {
+            $str .= "- {$p->getInfoProduk()} <br>";
+        }
+        return $str;
+    }
+    
 }
 
 
@@ -141,20 +178,11 @@ class Game extends Produk {
 $produk1 = new Komik("Naruto", "Masashi Kishimoto", "Shonen Jump", 30000, 100);
 $produk2 = new Game("Uncharted", "Neil Druckmann", "Sony Computer", 250000, 50);
 
-echo $produk1->getInfoProduk();
-echo "<br>";
-echo $produk2->getInfoProduk();
-echo "<hr>";
+$cetakProduk = new CetakInfoProduk();
+$cetakProduk->tambahProduk($produk1);
+$cetakProduk->tambahProduk($produk2);
+echo $cetakProduk->cetak();
 
-$produk1->setDiskon(50);
-echo "Harga Sekarang Produk Komik : Rp. " . $produk1->getHarga();
-
-echo "<hr>";
-echo "Harga Sekarang Produk Game : Rp. " . $produk2->getHarga();
-echo "<hr>";
-
-
-echo "Diskon : " . $produk1->getDiskon() . "%";
 /**
  * Access Modifier (Pengatur Akses) dalam OOP (Object-Oriented Programming)
  *
@@ -162,4 +190,6 @@ echo "Diskon : " . $produk1->getDiskon() . "%";
  * - Protected: Atribut atau method yang dapat diakses dari dalam kelas itu sendiri dan dari kelas turunannya (subclass).
  * - Private: Atribut atau method yang hanya dapat diakses dari dalam kelas itu sendiri dan tidak dapat diakses dari luar kelas atau kelas turunannya.
  */
+
+
 ?>
